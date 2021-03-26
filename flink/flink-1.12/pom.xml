@@ -15,9 +15,16 @@
 
     <properties>
         <dep.flink.version>1.12.0</dep.flink.version>
-    </properties>
+		<dep.guava.version>29.0-jre</dep.guava.version>
+	</properties>
 
     <dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${dep.guava.version}</version>
+			<scope>provided</scope>
+		</dependency>
         <!-- flink base -->
         <dependency>
             <groupId>io.tidb</groupId>
@@ -77,6 +84,7 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-jdbc_${dep.scala.binary.version}</artifactId>
             <version>${dep.flink.version}</version>
+			<scope>${flink.scope}</scope>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
