@@ -69,12 +69,6 @@
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-table-planner_${dep.scala.binary.version}</artifactId>
-      <version>${dep.flink.version}</version>
-      <scope>${flink.scope}</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.flink</groupId>
       <artifactId>flink-connector-jdbc_${dep.scala.binary.version}</artifactId>
       <version>${dep.flink.version}</version>
     </dependency>
