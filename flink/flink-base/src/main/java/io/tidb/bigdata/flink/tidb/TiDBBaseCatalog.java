@@ -275,9 +275,8 @@ public abstract class TiDBBaseCatalog extends AbstractCatalog {
   }
 
   @Override
-  public CatalogFunction getFunction(ObjectPath functionPath)
-      throws FunctionNotExistException, CatalogException {
-    throw new UnsupportedOperationException();
+  public CatalogFunction getFunction(ObjectPath functionPath) throws FunctionNotExistException {
+    throw new FunctionNotExistException(this.getName(), functionPath);
   }
 
   @Override
