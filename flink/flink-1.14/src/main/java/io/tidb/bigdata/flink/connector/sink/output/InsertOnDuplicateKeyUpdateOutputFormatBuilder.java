@@ -34,18 +34,12 @@
 
 package io.tidb.bigdata.flink.connector.sink.output;
 
-import static org.apache.flink.util.Preconditions.checkNotNull;
-
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.apache.flink.connector.jdbc.JdbcExecutionOptions;
+import org.apache.flink.connector.jdbc.converter.JdbcRowConverter;
 import org.apache.flink.connector.jdbc.dialect.JdbcDialect;
 import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat;
 import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat.RecordExtractor;
 import org.apache.flink.connector.jdbc.internal.connection.SimpleJdbcConnectionProvider;
-import org.apache.flink.connector.jdbc.internal.converter.JdbcRowConverter;
 import org.apache.flink.connector.jdbc.internal.executor.JdbcBatchStatementExecutor;
 import org.apache.flink.connector.jdbc.internal.executor.TableBufferedStatementExecutor;
 import org.apache.flink.connector.jdbc.internal.executor.TableSimpleStatementExecutor;
@@ -56,6 +50,13 @@ import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.DataType;
 import org.apache.flink.table.types.logical.LogicalType;
 import org.apache.flink.table.types.logical.RowType;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static org.apache.flink.util.Preconditions.checkNotNull;
 
 /** Builder for {@link JdbcOutputFormat} for clause `INSERT ... ON DUPLICATE KEY UPDATE`. */
 public class InsertOnDuplicateKeyUpdateOutputFormatBuilder implements Serializable {

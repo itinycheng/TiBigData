@@ -98,12 +98,6 @@ public class PartitionTest extends FlinkTestBase {
             DATABASE_NAME, DST_TABLE);
     TableEnvironment tableEnvironment = genTableEnvironmentForPartitionTest(createTableSql);
 
-    // insert
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES (5, 'Apple'), (25, 'Honey'), (29, 'Mike')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
     String querySQL =
         String.format("SELECT * FROM `tidb`.`%s`.`%s` ORDER BY `id`", DATABASE_NAME, DST_TABLE);
     checkResult(
@@ -111,12 +105,6 @@ public class PartitionTest extends FlinkTestBase {
         Lists.newArrayList("+I[5, Apple]", "+I[25, Honey]", "+I[29, Mike]"),
         querySQL);
 
-    // update
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES (5, 'Origin'), (25, 'Bee')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
     String querySQL2 =
         String.format("SELECT * FROM `tidb`.`%s`.`%s` ORDER BY `id`", DATABASE_NAME, DST_TABLE);
     checkResult(
@@ -133,11 +121,6 @@ public class PartitionTest extends FlinkTestBase {
             DATABASE_NAME, DST_TABLE);
     TableEnvironment tableEnvironment = genTableEnvironmentForPartitionTest(createTableSql);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES (CAST('1995-06-15' AS DATE), 'Apple'), (CAST('1995-08-08' AS DATE), 'Honey'), (CAST('1999-06-04' AS DATE), 'Mike')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
     String querySQL =
         String.format(
             "SELECT * FROM `tidb`.`%s`.`%s` ORDER BY `birthday`", DATABASE_NAME, DST_TABLE);
@@ -156,13 +139,6 @@ public class PartitionTest extends FlinkTestBase {
             DATABASE_NAME, DST_TABLE);
     TableEnvironment tableEnvironment = genTableEnvironmentForPartitionTest(createTableSql);
 
-    // insert
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES (19, 'Mike'), (59, 'Apple'), (376, 'Jack')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
-
     String querySQL =
         String.format("SELECT * FROM `%s`.`%s` PARTITION (p0)", DATABASE_NAME, DST_TABLE);
     List<List<Object>> expect = new ArrayList<>();
@@ -175,13 +151,6 @@ public class PartitionTest extends FlinkTestBase {
     expect2.add(Lists.newArrayList(19L, "Mike"));
     expect2.add(Lists.newArrayList(376L, "Jack"));
     checkJDBCResult(querySQL2, expect2);
-
-    // update
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES (19, 'Marry'), (59, 'Origin'), (376, 'Tom')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
 
     String querySQL3 =
         String.format("SELECT * FROM `%s`.`%s` PARTITION (p0)", DATABASE_NAME, DST_TABLE);
@@ -209,16 +178,6 @@ public class PartitionTest extends FlinkTestBase {
             DATABASE_NAME, DST_TABLE);
     TableEnvironment tableEnvironment = genTableEnvironmentForPartitionTest(createTableSql);
 
-    // insert
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES "
-                + "(CAST('1995-06-15 15:15:15' AS TIMESTAMP), 'Apple'), "
-                + "(CAST('1995-08-08 15:15:15' AS TIMESTAMP), 'Honey'), "
-                + "(CAST('1999-06-15 15:15:15' AS TIMESTAMP), 'Mike')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
-
     String querySQL =
         String.format("SELECT * FROM `%s`.`%s` PARTITION (p0)", DATABASE_NAME, DST_TABLE);
     List<List<Object>> expect = new ArrayList<>();
@@ -231,16 +190,6 @@ public class PartitionTest extends FlinkTestBase {
     expect2.add(Lists.newArrayList(dateTimeToLocalDateTime("1995-08-08 15:15:15"), "Honey"));
     expect2.add(Lists.newArrayList(dateTimeToLocalDateTime("1999-06-15 15:15:15"), "Mike"));
     checkJDBCResult(querySQL2, expect2);
-
-    // update
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES "
-                + "(CAST('1995-06-15 15:15:15' AS TIMESTAMP), 'Jack'), "
-                + "(CAST('1995-08-08 15:15:15' AS TIMESTAMP), 'Mary'), "
-                + "(CAST('1999-06-15 15:15:15' AS TIMESTAMP), 'John')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
 
     String querySQL3 =
         String.format("SELECT * FROM `%s`.`%s` PARTITION (p0)", DATABASE_NAME, DST_TABLE);
@@ -268,16 +217,6 @@ public class PartitionTest extends FlinkTestBase {
             DATABASE_NAME, DST_TABLE);
     TableEnvironment tableEnvironment = genTableEnvironmentForPartitionTest(createTableSql);
 
-    // insert
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES "
-                + "(CAST('1995-06-15' AS DATE), 'Apple'), "
-                + "(CAST('1995-08-08' AS DATE), 'Honey'), "
-                + "(CAST('1999-06-15' AS DATE), 'Mike')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
-
     String querySQL =
         String.format("SELECT * FROM `%s`.`%s` PARTITION (p0)", DATABASE_NAME, DST_TABLE);
     List<List<Object>> expect = new ArrayList<>();
@@ -290,16 +229,6 @@ public class PartitionTest extends FlinkTestBase {
     expect2.add(Lists.newArrayList(dateStringToDate("1995-08-08"), "Honey"));
     expect2.add(Lists.newArrayList(dateStringToDate("1999-06-15"), "Mike"));
     checkJDBCResult(querySQL2, expect2);
-
-    // update
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES "
-                + "(CAST('1995-06-15' AS DATE), 'Jack'), "
-                + "(CAST('1995-08-08' AS DATE), 'Mary'), "
-                + "(CAST('1999-06-15' AS DATE), 'John')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
 
     String querySQL3 =
         String.format("SELECT * FROM `%s`.`%s` PARTITION (p0)", DATABASE_NAME, DST_TABLE);
@@ -327,16 +256,6 @@ public class PartitionTest extends FlinkTestBase {
             DATABASE_NAME, DST_TABLE);
     TableEnvironment tableEnvironment = genTableEnvironmentForPartitionTest(createTableSql);
 
-    // insert
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES "
-                + "(CAST('Apple' AS BYTES), 10), "
-                + "(CAST('John' AS BYTES), 20), "
-                + "(CAST('Mike' AS BYTES), 30)",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
-
     String querySQL =
         String.format("SELECT * FROM  `tidb`.`%s`.`%s` ORDER BY `nums`", DATABASE_NAME, DST_TABLE);
     checkResult(
@@ -347,15 +266,6 @@ public class PartitionTest extends FlinkTestBase {
             "+I[[77, 105, 107, 101], 30]"),
         querySQL);
 
-    // update
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES "
-                + "(CAST('Apple' AS BYTES), 40), "
-                + "(CAST('John' AS BYTES), 50), "
-                + "(CAST('Mike' AS BYTES), 60)",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
     String querySQL2 =
         String.format("SELECT * FROM  `tidb`.`%s`.`%s` ORDER BY `nums`", DATABASE_NAME, DST_TABLE);
     checkResult(
@@ -379,16 +289,6 @@ public class PartitionTest extends FlinkTestBase {
             DATABASE_NAME, DST_TABLE);
     TableEnvironment tableEnvironment = genTableEnvironmentForPartitionTest(createTableSql);
 
-    // insert
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES "
-                + "(CAST('1995-06-15' AS DATE), 'Apple'), "
-                + "(CAST('1996-08-08' AS DATE), 'Honey'), "
-                + "(CAST('1999-06-15' AS DATE), 'Mike')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
-
     String querySQL =
         String.format("SELECT * FROM `%s`.`%s` PARTITION (p0)", DATABASE_NAME, DST_TABLE);
     List<List<Object>> expect = new ArrayList<>();
@@ -401,16 +301,6 @@ public class PartitionTest extends FlinkTestBase {
     expect2.add(Lists.newArrayList(dateStringToDate("1996-08-08"), "Honey"));
     expect2.add(Lists.newArrayList(dateStringToDate("1999-06-15"), "Mike"));
     checkJDBCResult(querySQL2, expect2);
-
-    // update
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` VALUES "
-                + "(CAST('1995-06-15' AS DATE), 'Jack'), "
-                + "(CAST('1996-08-08' AS DATE), 'Mary'), "
-                + "(CAST('1999-06-15' AS DATE), 'John')",
-            DATABASE_NAME, DST_TABLE));
-    tableEnvironment.execute("test");
 
     String querySQL3 =
         String.format("SELECT * FROM `%s`.`%s` PARTITION (p0)", DATABASE_NAME, DST_TABLE);

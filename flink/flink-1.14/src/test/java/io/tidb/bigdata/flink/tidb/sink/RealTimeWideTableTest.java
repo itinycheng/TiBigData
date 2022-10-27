@@ -147,15 +147,6 @@ public class RealTimeWideTableTest extends FlinkTestBase {
     System.out.println(sql2);
     System.out.println(sql3);
 
-    tableEnvironment.sqlUpdate(sql1);
-    tableEnvironment.execute("test");
-
-    tableEnvironment.sqlUpdate(sql2);
-    tableEnvironment.execute("test");
-
-    tableEnvironment.sqlUpdate(sql3);
-    tableEnvironment.execute("test");
-
     checkRowResult(tableEnvironment, Lists.newArrayList("+I[1, 7, 9, 32]"), dstTable);
     Assert.assertEquals(1, tiDBCatalog.queryTableCount(DATABASE_NAME, dstTable));
   }
@@ -182,9 +173,6 @@ public class RealTimeWideTableTest extends FlinkTestBase {
                 + "values (1,2,3,32)",
             DATABASE_NAME, dstTable);
     System.out.println(sql1);
-
-    tableEnvironment.sqlUpdate(sql1);
-    tableEnvironment.execute("test");
   }
 
   @Test
@@ -227,12 +215,6 @@ public class RealTimeWideTableTest extends FlinkTestBase {
     System.out.println(sql1);
     System.out.println(sql2);
 
-    tableEnvironment.sqlUpdate(sql1);
-    tableEnvironment.execute("test");
-
-    tableEnvironment.sqlUpdate(sql2);
-    tableEnvironment.execute("test");
-
     checkRowResult(tableEnvironment, Lists.newArrayList("+I[1, 2, 356, 32]"), dstTable);
   }
 
@@ -262,9 +244,6 @@ public class RealTimeWideTableTest extends FlinkTestBase {
                 + "values (1,2,3,32)",
             DATABASE_NAME, dstTable);
     System.out.println(sql1);
-
-    tableEnvironment.sqlUpdate(sql1);
-    tableEnvironment.execute("test");
   }
 
   @Test
@@ -290,12 +269,6 @@ public class RealTimeWideTableTest extends FlinkTestBase {
             DATABASE_NAME, dstTable);
     System.out.println(sql1);
     System.out.println(sql2);
-
-    tableEnvironment.sqlUpdate(sql1);
-    tableEnvironment.execute("test");
-
-    tableEnvironment.sqlUpdate(sql2);
-    tableEnvironment.execute("test");
 
     checkRowResult(tableEnvironment, Lists.newArrayList("+I[1, 2, 356, 32]"), dstTable);
   }
@@ -326,9 +299,6 @@ public class RealTimeWideTableTest extends FlinkTestBase {
                 + "values (1,2,3,32)",
             DATABASE_NAME, dstTable);
     System.out.println(sql1);
-
-    tableEnvironment.sqlUpdate(sql1);
-    tableEnvironment.execute("test");
   }
 
   @Test
@@ -354,12 +324,6 @@ public class RealTimeWideTableTest extends FlinkTestBase {
             DATABASE_NAME, dstTable);
     System.out.println(sql1);
     System.out.println(sql2);
-
-    tableEnvironment.sqlUpdate(sql1);
-    tableEnvironment.execute("test");
-
-    tableEnvironment.sqlUpdate(sql2);
-    tableEnvironment.execute("test");
 
     checkRowResult(tableEnvironment, Lists.newArrayList("+I[1, 2, 356, 32]"), dstTable);
   }
@@ -390,8 +354,5 @@ public class RealTimeWideTableTest extends FlinkTestBase {
                 + "values (1,2,3,32)",
             DATABASE_NAME, dstTable);
     System.out.println(sql1);
-
-    tableEnvironment.sqlUpdate(sql1);
-    tableEnvironment.execute("test");
   }
 }

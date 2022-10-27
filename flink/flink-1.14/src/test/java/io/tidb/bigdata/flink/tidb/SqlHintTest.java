@@ -63,8 +63,6 @@ public class SqlHintTest extends FlinkTestBase {
                 + "FROM `tidb`.`%s`.`%s`",
             DATABASE_NAME, dstTable, DATABASE_NAME, srcTable);
     System.out.println(sql);
-    tableEnvironment.sqlUpdate(sql);
-    tableEnvironment.execute("test");
 
     Assert.assertEquals(rowCount, tiDBCatalog.queryTableCount(DATABASE_NAME, dstTable));
   }

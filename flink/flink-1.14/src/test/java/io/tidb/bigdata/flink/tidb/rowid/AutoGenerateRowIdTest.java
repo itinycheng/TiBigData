@@ -42,7 +42,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.api.common.time.Time;
-import org.apache.flink.runtime.client.JobExecutionException;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
@@ -133,11 +132,6 @@ public class AutoGenerateRowIdTest extends FlinkTestBase {
     TiDBCatalog tiDBCatalog =
         initTiDBCatalog(dstTable, createTableSql, tableEnvironment, properties);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` " + "SELECT c1, c2 " + "FROM `tidb`.`%s`.`%s`",
-            DATABASE_NAME, dstTable, DATABASE_NAME, srcTable));
-    tableEnvironment.execute("test");
     Assert.assertEquals(rowCount, tiDBCatalog.queryTableCount(DATABASE_NAME, dstTable));
   }
 
@@ -162,11 +156,6 @@ public class AutoGenerateRowIdTest extends FlinkTestBase {
     TiDBCatalog tiDBCatalog =
         initTiDBCatalog(dstTable, createTableSql, tableEnvironment, properties);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` " + "SELECT c1, c2 " + "FROM `tidb`.`%s`.`%s`",
-            DATABASE_NAME, dstTable, DATABASE_NAME, srcTable));
-    tableEnvironment.execute("test");
     Assert.assertEquals(rowCount, tiDBCatalog.queryTableCount(DATABASE_NAME, dstTable));
   }
 
@@ -194,11 +183,6 @@ public class AutoGenerateRowIdTest extends FlinkTestBase {
     TiDBCatalog tiDBCatalog =
         initTiDBCatalog(dstTable, createTableSql, tableEnvironment, properties);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` " + "SELECT c1, c2 " + "FROM `tidb`.`%s`.`%s`",
-            DATABASE_NAME, dstTable, DATABASE_NAME, srcTable));
-    tableEnvironment.execute("test");
     Assert.assertEquals(rowCount, tiDBCatalog.queryTableCount(DATABASE_NAME, dstTable));
   }
 
@@ -226,13 +210,8 @@ public class AutoGenerateRowIdTest extends FlinkTestBase {
     long size = (long) (Math.pow(2, 64 - shardBits - signBitLength) - 3);
     tiDBCatalog.createRowIDAllocator(DATABASE_NAME, dstTable, size, type);
     try {
-      tableEnvironment.sqlUpdate(
-          String.format(
-              "INSERT INTO `tidb`.`%s`.`%s` " + "SELECT c1, c2 " + "FROM `tidb`.`%s`.`%s`",
-              DATABASE_NAME, dstTable, DATABASE_NAME, srcTable));
-      tableEnvironment.execute("test");
       fail("Expected an TiBatchWriteException or AllocateRowIDOverflowException to be thrown");
-    } catch (JobExecutionException e) {
+    } catch (Exception e) {
       switch (type) {
         case IMPLICIT_ROWID:
         case AUTO_RANDOM:
@@ -319,8 +298,6 @@ public class AutoGenerateRowIdTest extends FlinkTestBase {
     String sql =
         format("INSERT INTO `tidb`.`%s`.`%s` SELECT * FROM datagen", DATABASE_NAME, tableName);
     System.out.println(sql);
-    tableEnvironment.sqlUpdate(sql);
-    tableEnvironment.execute("test");
     Assert.assertEquals(rowCount, tiDBCatalog.queryTableCount(DATABASE_NAME, tableName));
   }
 

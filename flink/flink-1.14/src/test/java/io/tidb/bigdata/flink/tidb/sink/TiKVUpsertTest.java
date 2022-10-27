@@ -103,18 +103,6 @@ public class TiKVUpsertTest extends FlinkTestBase {
 
     TiDBCatalog tiDBCatalog = initTiDBCatalog(dstTable, TABLE, tableEnvironment, properties);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` " + "VALUES(1, 'before', 1), (2, 'before', 10)",
-            DATABASE_NAME, dstTable));
-    tableEnvironment.execute("test");
-
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` " + "VALUES(1, 'after', 2), (2, 'after', 20)",
-            DATABASE_NAME, dstTable));
-    tableEnvironment.execute("test");
-
     checkRowResult(
         tableEnvironment, Lists.newArrayList("+I[1, after, 2]", "+I[2, after, 20]"), dstTable);
     Assert.assertEquals(2, tiDBCatalog.queryTableCount(DATABASE_NAME, dstTable));

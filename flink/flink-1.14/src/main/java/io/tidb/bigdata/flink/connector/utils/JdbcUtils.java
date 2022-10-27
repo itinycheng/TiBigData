@@ -27,7 +27,7 @@ import io.tidb.bigdata.jdbc.TiDBDriver;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
-import org.apache.flink.connector.jdbc.dialect.MySQLDialect;
+import org.apache.flink.connector.jdbc.dialect.mysql.MySqlDialect;
 import org.apache.flink.connector.jdbc.internal.options.JdbcConnectorOptions;
 
 public class JdbcUtils {
@@ -64,7 +64,7 @@ public class JdbcUtils {
         .setTableName(tableName)
         .setUsername(properties.get(USERNAME.key()))
         .setPassword(properties.get(PASSWORD.key()))
-        .setDialect(new MySQLDialect())
+        .setDialect(new MySqlDialect())
         .setDriverName(driverName)
         .build();
   }

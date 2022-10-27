@@ -76,8 +76,7 @@ public class FilterPushDownTestUtils {
   private static final TableEnvironment tableEnvironment;
 
   static {
-    EnvironmentSettings settings =
-        EnvironmentSettings.newInstance().useBlinkPlanner().inBatchMode().build();
+    EnvironmentSettings settings = EnvironmentSettings.newInstance().inBatchMode().build();
     tableEnvironment = TableEnvironment.create(settings);
     TestCatalog testCatalog = new TestCatalog();
     tableEnvironment.registerCatalog(testCatalog.getName(), testCatalog);

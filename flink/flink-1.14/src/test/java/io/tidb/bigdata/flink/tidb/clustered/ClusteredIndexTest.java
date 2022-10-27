@@ -114,12 +114,6 @@ public class ClusteredIndexTest extends FlinkTestBase {
     TiDBCatalog tiDBCatalog =
         initTiDBCatalog(dstTable, createTableSql, tableEnvironment, properties);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` " + "VALUES (%s)",
-            DATABASE_NAME, dstTable, castString(dataType.getKey(), dataType.getValue())));
-    tableEnvironment.execute("test");
-
     checkSourceScanResult(tableEnvironment);
 
     Assert.assertEquals(1, tiDBCatalog.queryTableCount(DATABASE_NAME, dstTable));

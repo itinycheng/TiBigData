@@ -55,6 +55,7 @@ import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.functions.sink.DiscardingSink;
 import org.apache.flink.table.api.TableSchema;
 import org.apache.flink.table.catalog.ResolvedCatalogTable;
+import org.apache.flink.table.connector.ProviderContext;
 import org.apache.flink.table.connector.sink.DataStreamSinkProvider;
 import org.apache.flink.table.connector.sink.DynamicTableSink.Context;
 import org.apache.flink.table.data.RowData;
@@ -258,7 +259,8 @@ public class TiDBDataStreamSinkProvider implements DataStreamSinkProvider {
   }
 
   @Override
-  public DataStreamSink<?> consumeDataStream(DataStream<RowData> dataStream) {
+  public DataStreamSink<?> consumeDataStream(
+      ProviderContext providerContext, DataStream<RowData> dataStream) {
     try (ClientSession clientSession = ClientSession.create(new ClientConfig(properties))) {
       return doConsumeDataStream(dataStream, clientSession);
     } catch (Exception e) {

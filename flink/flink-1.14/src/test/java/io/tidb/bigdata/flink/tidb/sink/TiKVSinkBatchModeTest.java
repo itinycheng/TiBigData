@@ -91,13 +91,6 @@ public class TiKVSinkBatchModeTest extends FlinkTestBase {
             tableEnvironment,
             properties);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` "
-                + "SELECT c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17 "
-                + "FROM `tidb`.`%s`.`%s`",
-            DATABASE_NAME, dstTable, DATABASE_NAME, srcTable));
-    tableEnvironment.execute("test");
     Assert.assertEquals(rowCount, tiDBCatalog.queryTableCount(DATABASE_NAME, dstTable));
   }
 

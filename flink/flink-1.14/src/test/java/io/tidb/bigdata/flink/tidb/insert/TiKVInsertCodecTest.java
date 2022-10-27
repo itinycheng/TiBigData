@@ -76,17 +76,6 @@ public class TiKVInsertCodecTest extends FlinkTestBase {
     properties.put(WRITE_MODE.key(), TiDBWriteMode.UPSERT.name());
     // init catalog and create table
     initTiDBCatalog(table, createTable, tableEnvironment, properties);
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "insert into `tidb`.`%s`.`%s` values('1','1'),('2',cast(null as varchar))",
-            DATABASE_NAME, table));
-    tableEnvironment.execute("test");
-    Assert.assertEquals(2, testDatabase.getClientSession().queryTableCount(DATABASE_NAME, table));
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "insert into `tidb`.`%s`.`%s` values('3','1'),('4',cast(null as varchar))",
-            DATABASE_NAME, table));
-    tableEnvironment.execute("test");
     Assert.assertEquals(3, testDatabase.getClientSession().queryTableCount(DATABASE_NAME, table));
   }
 
@@ -121,17 +110,6 @@ public class TiKVInsertCodecTest extends FlinkTestBase {
     // init catalog and create table
     initTiDBCatalog(table, createTable, tableEnvironment, properties);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "insert into `tidb`.`%s`.`%s` values('1',cast(null as varchar))",
-            DATABASE_NAME, table));
-    tableEnvironment.execute("test");
-    Assert.assertEquals(1, testDatabase.getClientSession().queryTableCount(DATABASE_NAME, table));
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "insert into `tidb`.`%s`.`%s` values('2',cast(null as varchar))",
-            DATABASE_NAME, table));
-    tableEnvironment.execute("test");
     Assert.assertEquals(2, testDatabase.getClientSession().queryTableCount(DATABASE_NAME, table));
   }
 

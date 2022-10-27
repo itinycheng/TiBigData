@@ -92,7 +92,8 @@ public class TiDBDynamicTableFactory implements DynamicTableSourceFactory, Dynam
         new JdbcLookupOptions(
             config.get(LOOKUP_CACHE_MAX_ROWS),
             config.get(LOOKUP_CACHE_TTL).toMillis(),
-            config.get(LOOKUP_MAX_RETRIES)));
+            config.get(LOOKUP_MAX_RETRIES),
+            true));
   }
 
   @Override
@@ -163,7 +164,8 @@ public class TiDBDynamicTableFactory implements DynamicTableSourceFactory, Dynam
                 .withKeyFields(columnKeyField.getKeyFieldFlatMap())
                 .build();
 
-        return new JdbcDynamicTableSink(jdbcOptions, jdbcExecutionOptions, jdbcDmlOptions, schema);
+        return new JdbcDynamicTableSink(
+            jdbcOptions, jdbcExecutionOptions, jdbcDmlOptions, schema.toPhysicalRowDataType());
       }
     } else {
       throw new UnsupportedOperationException(

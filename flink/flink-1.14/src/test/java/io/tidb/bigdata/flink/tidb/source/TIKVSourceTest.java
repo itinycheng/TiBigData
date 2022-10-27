@@ -174,8 +174,7 @@ public class TIKVSourceTest extends FlinkTestBase {
         String.format("CREATE TABLE `%s` (`c1` int unique key)", tableName),
         String.format("SPLIT TABLE `%s` BETWEEN (0) AND (2000) REGIONS %s", tableName, 2),
         String.format("INSERT INTO `%s` VALUES %s", tableName, values));
-    EnvironmentSettings settings =
-        EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
+    EnvironmentSettings settings = EnvironmentSettings.newInstance().inStreamingMode().build();
     StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     env.enableCheckpointing(100L);
     StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, settings);
@@ -221,8 +220,7 @@ public class TIKVSourceTest extends FlinkTestBase {
         String.format("CREATE TABLE `%s` (`c1` int unique key)", tableName),
         String.format("SPLIT TABLE `%s` BETWEEN (0) AND (2000) REGIONS %s", tableName, 2),
         String.format("INSERT INTO `%s` VALUES %s", tableName, values));
-    EnvironmentSettings settings =
-        EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
+    EnvironmentSettings settings = EnvironmentSettings.newInstance().inStreamingMode().build();
     StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     env.enableCheckpointing(100L);
     StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, settings);
@@ -262,8 +260,7 @@ public class TIKVSourceTest extends FlinkTestBase {
   @Test
   @Ignore("Need kafka")
   public void testCdc() {
-    EnvironmentSettings settings =
-        EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
+    EnvironmentSettings settings = EnvironmentSettings.newInstance().inStreamingMode().build();
     StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, settings);
 

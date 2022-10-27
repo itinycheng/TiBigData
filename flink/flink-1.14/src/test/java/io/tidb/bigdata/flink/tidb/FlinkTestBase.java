@@ -175,8 +175,6 @@ public abstract class FlinkTestBase {
     String sql =
         format("INSERT INTO `tidb`.`%s`.`%s` SELECT * FROM datagen", DATABASE_NAME, tableName);
     System.out.println(sql);
-    tableEnvironment.sqlUpdate(sql);
-    tableEnvironment.execute("test");
     // splits
     String splitRegionSql =
         format(

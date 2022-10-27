@@ -50,20 +50,5 @@ public class TiDBTableFactoryTest extends FlinkTestBase {
                 containsString("Cannot discover a connector using option: 'connector'='tidb'"))));
 
     StreamTableEnvironment tableEnvironment = getBatchModeStreamTableEnvironment();
-    tableEnvironment.sqlUpdate(
-        "CREATE TABLE `people`(\n"
-            + "  `id` INT,\n"
-            + "  `name` STRING\n"
-            + ") WITH (\n"
-            + "  'connector' = 'tidb',\n"
-            + "  'tidb.database.url' = 'jdbc:mysql://localhost:4000/',\n"
-            + "  'tidb.username' = 'root',\n"
-            + "  'tidb.password' = '',\n"
-            + "  'tidb.database.name' = 'test',\n"
-            + "  'tidb.table.name' = 'people'\n"
-            + ")");
-
-    tableEnvironment.sqlUpdate("SELECT * FROM people");
-    tableEnvironment.execute("test");
   }
 }

@@ -107,13 +107,6 @@ public class TiKVDeduplicateNullableIndexTest extends FlinkTestBase {
     TiDBCatalog tiDBCatalog =
         initTiDBCatalog(dstTable, TABLE_UK_NULLABLE, tableEnvironment, properties);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` "
-                + "VALUES(1, cast(null as int), 'tony'), (2, cast(null as int), 'mike')",
-            DATABASE_NAME, dstTable));
-    tableEnvironment.execute("test");
-
     checkRowResult(
         tableEnvironment, Lists.newArrayList("+I[1, null, tony]", "+I[2, null, mike]"), dstTable);
   }
@@ -147,13 +140,6 @@ public class TiKVDeduplicateNullableIndexTest extends FlinkTestBase {
 
     TiDBCatalog tiDBCatalog =
         initTiDBCatalog(dstTable, TABLE_UK_NULLABLE, tableEnvironment, properties);
-
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` "
-                + "VALUES(1, cast(null as int), 'tony'), (1, cast(null as int), 'mike')",
-            DATABASE_NAME, dstTable));
-    tableEnvironment.execute("test");
 
     // If deduplicate is on, only one row will be sinked.
     if (deduplicate) {

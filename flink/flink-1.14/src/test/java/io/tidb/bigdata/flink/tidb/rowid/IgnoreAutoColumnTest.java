@@ -105,10 +105,6 @@ public class IgnoreAutoColumnTest extends FlinkTestBase {
     TiDBCatalog tiDBCatalog =
         initTiDBCatalog(dstTable, createTableSql, tableEnvironment, properties);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` (id, number) VALUES (10, 1)", DATABASE_NAME, dstTable));
-    tableEnvironment.execute("test");
     Assert.assertEquals(1, tiDBCatalog.queryTableCount(DATABASE_NAME, dstTable));
     Table table =
         tableEnvironment.sqlQuery(
@@ -132,10 +128,6 @@ public class IgnoreAutoColumnTest extends FlinkTestBase {
     TiDBCatalog tiDBCatalog =
         initTiDBCatalog(dstTable, createTableSql, tableEnvironment, properties);
 
-    tableEnvironment.sqlUpdate(
-        String.format(
-            "INSERT INTO `tidb`.`%s`.`%s` (id, number) VALUES (10, 1)", DATABASE_NAME, dstTable));
-    tableEnvironment.execute("test");
     Assert.assertEquals(1, tiDBCatalog.queryTableCount(DATABASE_NAME, dstTable));
     Table table =
         tableEnvironment.sqlQuery(
